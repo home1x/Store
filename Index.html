@@ -1,1 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallax // Official store</title>
+    <style>
+        /* --- RESET & ROOT VARIABES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
 
+        :root {
+            --bg-deep: #0a0a0a;
+            --card-bg: rgba(18, 18, 18, 0.7);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #ffffff;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- MONOCHROME GALAXY BACKGROUND --- */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, #111111 0%, #050505 100%);
+        }
+
+        /* --- LAYOUT CONFIGURATION --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 900;
+            letter-spacing: 0.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .cart-status {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-status:hover {
+            background: var(--text-main);
+            color: var(--bg-deep);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* --- SECTION HEADER TYPOGRAPHY --- */
+        .section-title {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* --- PRODUCTS GRID --- */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 6rem;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* High contrast visual fallback if no image added */
+        .product-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            color: rgba(255,255,255,0.07);
+            font-size: 5rem;
+            font-weight: bold;
+        }
+
+        .product-details {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid var(--border-color);
+            background: rgba(10, 10, 10, 0.8);
+        }
+
+        .product-meta .title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .product-meta .price {
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .buy-btn {
+            background: none;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            background: var(--text-main);
+            color: var(--bg-deep);
+        }
+
+        /* --- SOCIAL ARCHIVE LINK TREE --- */
+        .network-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 4rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .social-link:hover {
+            color: var(--text-main);
+            transform: scale(1.05);
+        }
+
+        .network-banner {
+            display: inline-block;
+            border: 1px dashed var(--border-color);
+            padding: 1.5rem 3rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .network-banner:hover {
+            border-style: solid;
+            border-color: var(--text-main);
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* --- RESPONSIVE CONFIG --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+            .logo {
+                font-size: 1.3rem;
+                letter-spacing: 0.3rem;
+            }
+            .social-links {
+                gap: 1rem;
+            }
+            .social-link {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INTERACTIVE BACKGROUND -->
+    <canvas id="space-canvas"></canvas>
+
+    <!-- NAVIGATION HEADER -->
+    <header>
+        <div class="logo">PARALLAX</div>
+        <div class="cart-status" id="cart-counter">BAG [0]</div>
+    </header>
+
+    <!-- MAIN MERCHANDISE ARCHIVE -->
+    <main>
+        
+        <!-- AUDIO RELEASES -->
+        <h2 class="section-title">Digital Soundscapes</h2>
+        <div class="store-grid">
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <div class="product-image-placeholder">001</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-meta">
+                        <div class="title">Ecliptic LP</div>
+                        <div class="price">Digital FLAC // $12.00</div>
+                    </div>
+                    <button class="buy-btn" onclick="addToBag()">ADD</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <div class="product-image-placeholder">002</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-meta">
+                        <div class="title">Singularity</div>
+                        <div class="price">Maxi-Single // $4.00</div>
+                    </div>
+                    <button class="buy-btn" onclick="addToBag()">ADD</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHYSICAL EDITIONS -->
+        <h2 class="section-title">Physical Artifacts</h2>
+        <div class="store-grid">
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <div class="product-image-placeholder">M-01</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-meta">
+                        <div class="title">Monochrome Hoodie</div>
+                        <div class="price">Heavyweight // $65.00</div>
+                    </div>
+                    <button class="buy-btn" onclick="addToBag()">ADD</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <div class="product-image-placeholder">M-02</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-meta">
+                        <div class="title">Parallax Cap</div>
+                        <div class="price">Low Profile // $30.00</div>
+                    </div>
+                    <button class="buy-btn" onclick="addToBag()">ADD</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <div class="product-image-placeholder">M-03</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-meta">
+                        <div class="title">Limited Vinyl</div>
+                        <div class="price">180g Clear Smoke // $40.00</div>
+                    </div>
+                    <button class="buy-btn" onclick="addToBag()">ADD</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOCIALS & COMMUNE -->
+        <footer class="network-footer">
+            <div class="social-links">
+                <a href="https://x.com/Parallax_x_x" target="_blank" class="social-link">X.com</a>
+                <a href="https://www.instagram.com/parallax.x.x?igsh=eTlnM20xZW5lcDUx&utm_source=qr" target="_blank" class="social-link">Instagram</a>
+                <a href="https://m.youtube.com/@parallax.x.x?ra=m" target="_blank" class="social-link">YouTube</a>
+                <a href="https://www.tiktok.com/@parallax.x.x?_r=1&_t=ZT-94UGGvXVNug" target="_blank" class="social-link">TikTok</a>
+                <a href="https://www.facebook.com/Parallax.x.x.x.x/" target="_blank" class="social-link">Facebook</a>
+            </div>
+            
+            <a href="https://discord.com/invite/rhXuzGvM6
