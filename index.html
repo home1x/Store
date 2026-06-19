@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parallax // Official store</title>
     <style>
-        /* --- RESET & ROOT VARIABES --- */
+        /* --- RESET & ROOT VARIABLES --- */
         * {
             margin: 0;
             padding: 0;
@@ -60,7 +60,7 @@
             font-size: 1.75rem;
             font-weight: 900;
             letter-spacing: 0.5rem;
-            text-transform: uppercase;
+            text-transform: none; /* Changed from uppercase to respect capitalization */
             text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
@@ -83,26 +83,6 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 2rem;
-        }
-
-        /* --- SECTION HEADER TYPOGRAPHY --- */
-        .section-title {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-title::after {
-            content: '';
-            flex-grow: 1;
-            height: 1px;
-            background: var(--border-color);
         }
 
         /* --- PRODUCTS GRID --- */
@@ -268,80 +248,79 @@
 
     <!-- NAVIGATION HEADER -->
     <header>
-        <div class="logo">PARALLAX</div>
+        <div class="logo">Parallax</div>
         <div class="cart-status" id="cart-counter">BAG [0]</div>
     </header>
 
     <!-- MAIN MERCHANDISE ARCHIVE -->
     <main>
         
-        <!-- AUDIO RELEASES -->
-        <h2 class="section-title">Digital Soundscapes</h2>
         <div class="store-grid">
+            <!-- Product 1 -->
             <div class="product-card">
                 <div class="product-image-wrapper">
-                    <div class="product-image-placeholder">001</div>
+                    <div class="product-image-placeholder">01</div>
                 </div>
                 <div class="product-details">
                     <div class="product-meta">
-                        <div class="title">Ecliptic LP</div>
-                        <div class="price">Digital FLAC // $12.00</div>
+                        <div class="title">[Merch Name]</div>
+                        <div class="price">[Format/Type] // $[Price]</div>
                     </div>
                     <button class="buy-btn" onclick="addToBag()">ADD</button>
                 </div>
             </div>
 
+            <!-- Product 2 -->
             <div class="product-card">
                 <div class="product-image-wrapper">
-                    <div class="product-image-placeholder">002</div>
+                    <div class="product-image-placeholder">02</div>
                 </div>
                 <div class="product-details">
                     <div class="product-meta">
-                        <div class="title">Singularity</div>
-                        <div class="price">Maxi-Single // $4.00</div>
-                    </div>
-                    <button class="buy-btn" onclick="addToBag()">ADD</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PHYSICAL EDITIONS -->
-        <h2 class="section-title">Physical Artifacts</h2>
-        <div class="store-grid">
-            <div class="product-card">
-                <div class="product-image-wrapper">
-                    <div class="product-image-placeholder">M-01</div>
-                </div>
-                <div class="product-details">
-                    <div class="product-meta">
-                        <div class="title">Monochrome Hoodie</div>
-                        <div class="price">Heavyweight // $65.00</div>
+                        <div class="title">[Merch Name]</div>
+                        <div class="price">[Format/Type] // $[Price]</div>
                     </div>
                     <button class="buy-btn" onclick="addToBag()">ADD</button>
                 </div>
             </div>
 
+            <!-- Product 3 -->
             <div class="product-card">
                 <div class="product-image-wrapper">
-                    <div class="product-image-placeholder">M-02</div>
+                    <div class="product-image-placeholder">03</div>
                 </div>
                 <div class="product-details">
                     <div class="product-meta">
-                        <div class="title">Parallax Cap</div>
-                        <div class="price">Low Profile // $30.00</div>
+                        <div class="title">[Merch Name]</div>
+                        <div class="price">[Format/Type] // $[Price]</div>
                     </div>
                     <button class="buy-btn" onclick="addToBag()">ADD</button>
                 </div>
             </div>
 
+            <!-- Product 4 -->
             <div class="product-card">
                 <div class="product-image-wrapper">
-                    <div class="product-image-placeholder">M-03</div>
+                    <div class="product-image-placeholder">04</div>
                 </div>
                 <div class="product-details">
                     <div class="product-meta">
-                        <div class="title">Limited Vinyl</div>
-                        <div class="price">180g Clear Smoke // $40.00</div>
+                        <div class="title">[Merch Name]</div>
+                        <div class="price">[Format/Type] // $[Price]</div>
+                    </div>
+                    <button class="buy-btn" onclick="addToBag()">ADD</button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <div class="product-image-placeholder">05</div>
+                </div>
+                <div class="product-details">
+                    <div class="product-meta">
+                        <div class="title">[Merch Name]</div>
+                        <div class="price">[Format/Type] // $[Price]</div>
                     </div>
                     <button class="buy-btn" onclick="addToBag()">ADD</button>
                 </div>
@@ -358,4 +337,17 @@
                 <a href="https://www.facebook.com/Parallax.x.x.x.x/" target="_blank" class="social-link">Facebook</a>
             </div>
             
-            <a href="https://discord.com/invite/rhXuzGvM6
+            <a href="https://discord.com/invite/rhXuzGvM6" target="_blank" class="network-banner">JOIN THE DISCORD</a>
+        </footer>
+    </main>
+
+    <script>
+        // Simple logic script to support the cart interaction
+        let count = 0;
+        function addToBag() {
+            count++;
+            document.getElementById('cart-counter').innerText = `BAG [${count}]`;
+        }
+    </script>
+</body>
+</html>
