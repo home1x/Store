@@ -123,7 +123,6 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* High contrast visual fallback if no image added */
         .product-image-wrapper {
             position: relative;
             width: 100%;
@@ -232,12 +231,25 @@
             letter-spacing: 3px;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            margin-bottom: 4rem;
         }
 
         .network-banner:hover {
             border-style: solid;
             border-color: var(--text-main);
             background: rgba(255,255,255,0.02);
+        }
+
+        .copyright-bar {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         /* --- RESPONSIVE CONFIG --- */
@@ -351,6 +363,17 @@
             </div>
             
             <a href="https://discord.com/invite/rhXuzGvM6" target="_blank" class="network-banner">JOIN THE DISCORD</a>
+            
+            <div class="copyright-bar">
+                &copy; 
+                <span class="custom-signature-container" style="height: 20px; vertical-align: middle; margin: 0 4px;">
+                    <svg class="signature-svg" viewBox="0 0 240 70" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <path class="signature-path" d="M 30 54 L 30 16 M 30 18 C 48 10, 68 18, 52 34 C 40 44, 30 40, 30 40" stroke-width="3.5px" />
+                        <path class="signature-path" d="M 66 38 C 74 34, 76 46, 84 46 C 92 46, 96 34, 100 34 C 104 34, 106 46, 114 46 C 122 46, 128 22, 134 22 L 128 46 C 132 46, 136 22, 142 22 L 136 46 C 144 46, 146 34, 154 34 C 158 34, 160 46, 168 46 C 174 46, 184 34, 190 40" stroke-width="3.5px" />
+                        <path class="signature-path" d="M 45 56 L 210 50" stroke-width="2px" opacity="0.85" />
+                    </svg>
+                </span>. all rights reserved.
+            </div>
         </footer>
     </main>
 
@@ -360,6 +383,18 @@
         function addToBag() {
             count++;
             document.getElementById('cart-counter').innerText = `BAG [${count}]`;
+        }
+
+        // Space canvas setup
+        const canvas = document.getElementById('space-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
         }
     </script>
 </body>
