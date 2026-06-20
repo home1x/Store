@@ -285,7 +285,7 @@
                 <path class="signature-path" d="M 45 56 L 210 50" stroke-width="1.2px" opacity="0.85" />
             </svg>
         </div>
-        <div class="cart-status" id="cart-counter">BAG [0]</div>
+        <div class="cart-status" id="cart-counter">Bag 0</div>
     </header>
 
     <main>
@@ -357,7 +357,6 @@
         </div>
     </main>
 
-    <!-- Brought footer out of <main> to let the border line run edge-to-edge -->
     <footer class="network-footer">
         <div class="social-links">
             <a href="https://x.com/Parallax_x_x" target="_blank" class="social-link">X.com</a>
@@ -385,7 +384,8 @@
         let count = 0;
         function addToBag() {
             count++;
-            document.getElementById('cart-counter').innerText = `BAG [${count}]`;
+            // Updated template dynamic string to match "Bag X" layout structure
+            document.getElementById('cart-counter').innerText = `Bag ${count}`;
         }
 
         const canvas = document.getElementById('space-canvas');
