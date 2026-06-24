@@ -31,7 +31,7 @@
             min-height: 100vh;
         }
 
-        /* --- MONOCHROME GALAXY BACKGROUND --- */
+        /* --- MONOCHROME GALAXY BACKGROUND (UPDATED TO MATCH SECOND SITE) --- */
         #space-canvas {
             position: fixed;
             top: 0;
@@ -40,7 +40,8 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-            background: radial-gradient(circle at center, #111111 0%, #050505 100%);
+            /* Hard backup colors in case script rendering is interrupted */
+            background: radial-gradient(circle at 30% 40%, #222222 0%, #0c0c0c 45%, #000000 100%);
         }
 
         /* --- SIGNATURE ENGINE LAYOUT --- */
