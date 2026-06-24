@@ -31,7 +31,7 @@
             min-height: 100vh;
         }
 
-        /* --- MONOCHROME GALAXY BACKGROUND (UPDATED TO MATCH SECOND SITE) --- */
+        /* --- BACKGROUND LAYER (BLACK, GREY & WHITE GALAXY FROM SECOND SITE) --- */
         #space-canvas {
             position: fixed;
             top: 0;
@@ -389,15 +389,62 @@
             document.getElementById('cart-counter').innerText = `Bag ${count}`;
         }
 
+        // --- GALAXY ENGINE (BROUGHT ACROSS FROM THE SECOND SITE) ---
         const canvas = document.getElementById('space-canvas');
         if (canvas) {
             const ctx = canvas.getContext('2d');
+            let stars = [];
+            const starCount = 120;
+
             function resize() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
+                initStars();
             }
+
+            function initStars() {
+                stars = [];
+                for(let i = 0; i < starCount; i++) {
+                    stars.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        size: Math.random() * 1.5,
+                        opacity: Math.random(),
+                        speed: 0.005 + Math.random() * 0.015
+                    });
+                }
+            }
+
+            function animate() {
+                // Background gradient clearing loop
+                let gradient = ctx.createRadialGradient(
+                    canvas.width * 0.3, canvas.height * 0.4, 0,
+                    canvas.width * 0.3, canvas.height * 0.4, Math.max(canvas.width, canvas.height)
+                );
+                gradient.addColorStop(0, '#222222');
+                gradient.addColorStop(0.45, '#0c0c0c');
+                gradient.addColorStop(1, '#000000');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Render stars loop
+                for(let i = 0; i < starCount; i++) {
+                    let s = stars[i];
+                    s.opacity += s.speed;
+                    if(s.opacity > 1 || s.opacity < 0) {
+                        s.speed = -s.speed;
+                    }
+                    ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.opacity)})`;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                requestAnimationFrame(animate);
+            }
+
             window.addEventListener('resize', resize);
             resize();
+            animate();
         }
     </script>
 </body>
